@@ -350,22 +350,22 @@
 <h1 id="custom-currencies">Custom Currencies</h1>
 <p>Sometimes it is desirable to use a currency that lacks a ISO 4217 code, usually because it is not yet recognized by the ISO committee. These currencies are not supported by default. However, if your application requires them, there is a means to register new currencies.</p>
 <p>This package exports <code>newcurrency!(symb, name, exponent) &lt;newcurrency!&gt;</code>, and a convenience macro <code>@usingcustomcurrency</code>. As convention, and to prevent name clashes with ISO 4217 currencies, all custom currencies should use lowercase letters (all default currencies use only uppercase letters). Note that the registration of a custom currency is global, so ensure that your application does not register the same currency as a package that your application depends on:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@usingcustomcurrency</span> <span class="n">xbt</span> <span class="s">&quot;Bitcoin&quot;</span> <span class="mi">8</span>
+<div class="codehilite"><pre><span></span>julia&gt; @usingcustomcurrency xbt &quot;Bitcoin&quot; 8
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="mi">10</span><span class="n">xbt</span>
-<span class="mf">10.00000000</span> <span class="n">xbt</span>
+julia&gt; 10xbt
+10.00000000 xbt
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">pts</span> <span class="o">=</span> <span class="n">newcurrency!</span><span class="p">(</span><span class="o">:</span><span class="n">pts</span><span class="p">,</span> <span class="s">&quot;Points&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="mi">1</span> <span class="n">pts</span>
+julia&gt; pts = newcurrency!(:pts, &quot;Points&quot;, 0)
+1 pts
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="mi">10</span><span class="n">pts</span>
-<span class="mi">10</span> <span class="n">pts</span>
+julia&gt; 10pts
+10 pts
 </pre></div>
 
 
 <p>Supposing that your application needs to handle any <code>Monetary</code> values, you may sometimes need to access the name or description of a currency, custom or not. This human-readable English-language description is exposed through the <code>currencyinfo</code> function, which takes either a currency symbol, a <code>Monetary</code> type, or a <code>Monetary</code> object:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">currencyinfo</span><span class="p">(</span><span class="o">:</span><span class="n">USD</span><span class="p">)</span>
-<span class="s">&quot;US Dollar&quot;</span>
+<div class="codehilite"><pre><span></span>julia&gt; currencyinfo(:USD)
+&quot;US Dollar&quot;
 </pre></div>
 
 

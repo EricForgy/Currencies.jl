@@ -443,31 +443,31 @@
 <p><a id='Custom-Precision-1'></a></p>
 <h2 id="custom-precision">Custom Precision</h2>
 <p>The default precision for most currencies is down to the minor currency unit. For example, for the United States dollar, this minor currency unit is the cent. This is acceptable for most purposes, but in some situations more or less precision is necessary. The precision (the number of decimal points after the major currency unit) can be controlled as a third type parameter to <code>Monetary</code>:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">USD_M</span> <span class="o">=</span> <span class="n">Monetary</span><span class="p">{</span><span class="o">:</span><span class="n">USD</span><span class="p">,</span> <span class="kt">Int</span><span class="p">,</span> <span class="mi">3</span><span class="p">}(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="mf">1.000</span> <span class="n">USD</span>
+<div class="codehilite"><pre><span></span>julia&gt; USD_M = Monetary{:USD, Int, 3}(1000)
+1.000 USD
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">julia</span><span class="o">&gt;</span> <span class="mi">10</span><span class="n">USD_M</span> <span class="o">+</span> <span class="mf">11.004</span><span class="n">USD_M</span>
-<span class="n">ERROR</span><span class="o">:</span> <span class="kt">UndefVarError</span><span class="o">:</span> <span class="n">julia</span> <span class="n">not</span> <span class="n">defined</span>
+julia&gt; julia&gt; 10USD_M + 11.004USD_M
+ERROR: UndefVarError: julia not defined
 </pre></div>
 
 
 <p>Sometimes it is useful to override the second parameter too, to change the underlying storage precision:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">USD_M</span> <span class="o">=</span> <span class="n">Monetary</span><span class="p">{</span><span class="o">:</span><span class="n">USD</span><span class="p">,</span> <span class="kt">Int128</span><span class="p">,</span> <span class="mi">3</span><span class="p">}(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="mf">1.000</span> <span class="n">USD</span>
+<div class="codehilite"><pre><span></span>julia&gt; USD_M = Monetary{:USD, Int128, 3}(1000)
+1.000 USD
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="mi">1267650600228229401496703205376</span><span class="n">USD_M</span>
-<span class="mf">1267650600228229401496703205376.000</span> <span class="n">USD</span>
+julia&gt; 1267650600228229401496703205376USD_M
+1267650600228229401496703205376.000 USD
 </pre></div>
 
 
 <p>Mixed arithmetic between precisions and representations is supported. However, it's important to note that mixed arithmetic may have significant performance implications. This is because for type safety, many combinations are converted unnecessarily to <code>BigInt</code> as an internal representation:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">USD_M</span> <span class="o">+</span> <span class="n">USD</span>
-<span class="n">ERROR</span><span class="o">:</span> <span class="kt">UndefVarError</span><span class="o">:</span> <span class="n">USD</span> <span class="n">not</span> <span class="n">defined</span>
+<div class="codehilite"><pre><span></span>julia&gt; USD_M + USD
+ERROR: UndefVarError: USD not defined
 
-<span class="n">Currencies</span><span class="o">.</span><span class="n">CurrenciesBase</span><span class="o">.</span><span class="n">Monetary</span><span class="p">{</span><span class="o">:</span><span class="n">USD</span><span class="p">,</span><span class="kt">Int128</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
-  <span class="n">val</span><span class="o">:</span> <span class="n">Currencies</span><span class="o">.</span><span class="n">FixedPointDecimals</span><span class="o">.</span><span class="n">FixedDecimal</span><span class="p">{</span><span class="kt">Int128</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
-    <span class="n">i</span><span class="o">:</span> <span class="kt">Int128</span> <span class="mi">1267650600228229401496703205376000</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">dump</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+julia&gt; dump(ans)
+Currencies.CurrenciesBase.Monetary{:USD,Int128,3}
+  val: Currencies.FixedPointDecimals.FixedDecimal{Int128,3}
+    i: Int128 1267650600228229401496703205376000
 </pre></div>
 
 

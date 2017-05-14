@@ -404,22 +404,22 @@
                 <p><a id='Valuation-1'></a></p>
 <h1 id="valuation">Valuation</h1>
 <p>One important operation on monetary amounts is the ability to valuate them. Both baskets and single <code>Monetary</code> objects can be "converted" (in some sense) to a reference currency using the <code>valuate</code> function. This function takes some table mapping currency symbols to a simple floating point, which represents its value to some particular reference. It uses the table to compute the ratio between any two currencies that are both in the table, and then reduces each currency present in the basket into the desired basis currency. An example would explain it better than any words:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@usingcurrencies</span> <span class="n">USD</span><span class="p">,</span> <span class="n">JPY</span><span class="p">,</span> <span class="n">EUR</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span>julia&gt; @usingcurrencies USD, JPY, EUR;
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">usdmoney</span> <span class="o">=</span> <span class="mi">100</span><span class="n">USD</span><span class="p">;</span>
+julia&gt; usdmoney = 100USD;
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">mybasket</span> <span class="o">=</span> <span class="n">Basket</span><span class="p">([</span><span class="mi">100</span><span class="n">USD</span><span class="p">,</span> <span class="mi">100</span><span class="n">JPY</span><span class="p">,</span> <span class="mi">100</span><span class="n">EUR</span><span class="p">]);</span>
+julia&gt; mybasket = Basket([100USD, 100JPY, 100EUR]);
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">rates</span> <span class="o">=</span> <span class="n">ExchangeRateTable</span><span class="p">(</span>
-               <span class="o">:</span><span class="n">USD</span> <span class="o">=&gt;</span> <span class="mf">1.0</span><span class="p">,</span>
-               <span class="o">:</span><span class="n">JPY</span> <span class="o">=&gt;</span> <span class="mf">0.02</span><span class="p">,</span>
-               <span class="o">:</span><span class="n">EUR</span> <span class="o">=&gt;</span> <span class="mf">1.2</span><span class="p">);</span>
+julia&gt; rates = ExchangeRateTable(
+               :USD =&gt; 1.0,
+               :JPY =&gt; 0.02,
+               :EUR =&gt; 1.2);
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">valuate</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="o">:</span><span class="n">EUR</span><span class="p">,</span> <span class="n">usdmoney</span><span class="p">)</span>
-<span class="mf">83.33</span> <span class="n">EUR</span>
+julia&gt; valuate(rates, :EUR, usdmoney)
+83.33 EUR
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">valuate</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="o">:</span><span class="n">JPY</span><span class="p">,</span> <span class="n">mybasket</span><span class="p">)</span>
-<span class="mi">11100</span> <span class="n">JPY</span>
+julia&gt; valuate(rates, :JPY, mybasket)
+11100 JPY
 </pre></div>
 
 
@@ -443,8 +443,8 @@
 <p><a id='Similar-Type-Conversions-1'></a></p>
 <h2 id="similar-type-conversions">Similar Type Conversions</h2>
 <p>For type safety reasons, <code>Monetary</code> objects of the same currency may be incompatible if stored with different precision or with a different internal representation. <code>valuate</code> provides an explicit, if cumbersome, way to convert between these incompatible types:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">valuate</span><span class="p">(</span><span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="n">USD</span> <span class="o">=&gt;</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">Monetary</span><span class="p">{</span><span class="o">:</span><span class="n">USD</span><span class="p">,</span> <span class="kt">BigInt</span><span class="p">,</span> <span class="mi">4</span><span class="p">},</span> <span class="mi">100</span><span class="n">USD</span><span class="p">)</span>
-<span class="n">ERROR</span><span class="o">:</span> <span class="kt">UndefVarError</span><span class="o">:</span> <span class="n">valuate</span> <span class="n">not</span> <span class="n">defined</span>
+<div class="codehilite"><pre><span></span>julia&gt; valuate(Dict(:USD =&gt; 1.0), Monetary{:USD, BigInt, 4}, 100USD)
+ERROR: UndefVarError: valuate not defined
 </pre></div>
 
 

@@ -406,35 +406,36 @@
 <p><a id='Quick-Display-1'></a></p>
 <h2 id="quick-display">Quick Display</h2>
 <p>The representation used by <code>show</code> and <code>print</code> is the same, and is fairly compact. (Note that this behaviour is retained for compatibility and will likely change in the future.)</p>
-<div class="codehilite"><pre><span></span><span class="mf">100.0</span><span class="n">USDjulia</span><span class="o">&gt;</span> <span class="n">show</span><span class="p">(</span><span class="mi">100</span><span class="n">USD</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span>julia&gt; show(100USD)
+100.0USD
 </pre></div>
 
 
 <p>When a richer representation than <code>text/plain</code> is available, such as in an IJulia environment, <code>Basket</code> and <code>Monetary</code> objects can render as LaTeX and Markdown, respectively:</p>
-<div class="codehilite"><pre><span></span><span class="o">$</span><span class="mf">100.00</span><span class="o">\</span><span class="p">,</span><span class="o">\</span><span class="n">mathrm</span><span class="p">{</span><span class="n">USD</span><span class="p">}</span><span class="o">$</span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">show</span><span class="p">(</span><span class="nb">STDOUT</span><span class="p">,</span> <span class="s">&quot;text/latex&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="n">USD</span><span class="p">)</span>
-
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">show</span><span class="p">(</span><span class="nb">STDOUT</span><span class="p">,</span> <span class="s">&quot;text/markdown&quot;</span><span class="p">,</span> <span class="n">Basket</span><span class="p">([</span><span class="mi">100</span><span class="n">USD</span><span class="p">,</span> <span class="mi">100</span><span class="n">EUR</span><span class="p">]))</span>
-<span class="n">ERROR</span><span class="o">:</span> <span class="kt">UndefVarError</span><span class="o">:</span> <span class="n">EUR</span> <span class="n">not</span> <span class="n">defined</span>
+<div class="codehilite"><pre><span></span>julia&gt; show(STDOUT, &quot;text/latex&quot;, 100USD)
+$100.00\,\mathrm{USD}$
+julia&gt; show(STDOUT, &quot;text/markdown&quot;, Basket([100USD, 100EUR]))
+ERROR: UndefVarError: EUR not defined
 </pre></div>
 
 
 <p><a id='Formatting-1'></a></p>
 <h2 id="formatting">Formatting</h2>
 <p>This package provides powerful formatting for <code>Monetary</code> values, but at the present time not all of this functionality is exposed to the user. However, a convenient interface is provided to use some of that functionality: the <code>format</code> function. By default, it formats currency in a way acceptable to people who work with finance:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">format</span><span class="p">(</span><span class="mi">100</span><span class="n">USD</span><span class="p">)</span>
-<span class="s">&quot;100.00 USD&quot;</span>
+<div class="codehilite"><pre><span></span>julia&gt; format(100USD)
+&quot;100.00 USD&quot;
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="n">USD</span><span class="p">)</span>
-<span class="s">&quot;(100.00) USD&quot;</span>
+julia&gt; format(-100USD)
+&quot;(100.00) USD&quot;
 </pre></div>
 
 
 <p>Extra information about the style desired can be provided in the :obj:<code>styles</code> keyword argument:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">format</span><span class="p">(</span><span class="mi">1270</span><span class="n">USD</span><span class="p">;</span> <span class="n">styles</span><span class="o">=</span><span class="p">[</span><span class="o">:</span><span class="n">us</span><span class="p">,</span> <span class="o">:</span><span class="n">brief</span><span class="p">])</span>
-<span class="s">&quot;</span><span class="se">\$</span><span class="s">1,270.00&quot;</span>
+<div class="codehilite"><pre><span></span>julia&gt; format(1270USD; styles=[:us, :brief])
+&quot;\$1,270.00&quot;
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="mi">700</span><span class="n">EUR</span><span class="p">;</span> <span class="n">styles</span><span class="o">=</span><span class="p">[</span><span class="o">:</span><span class="n">european</span><span class="p">,</span> <span class="o">:</span><span class="n">finance</span><span class="p">])</span>
-<span class="n">ERROR</span><span class="o">:</span> <span class="kt">UndefVarError</span><span class="o">:</span> <span class="n">EUR</span> <span class="n">not</span> <span class="n">defined</span>
+julia&gt; format(-700EUR; styles=[:european, :finance])
+ERROR: UndefVarError: EUR not defined
 </pre></div>
 
 
